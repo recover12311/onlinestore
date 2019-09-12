@@ -1,0 +1,56 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="~/Content/css/style.css">
+    <link rel="stylesheet" href="~/Content/css/layout.css">
+    <title>Store</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+    <div id="stat"></div>
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "GetProductsJson",
+                type: "GET",
+
+                success: function (data) {
+                    var output = '<table class="table">';
+                    output += '<tr>';
+                    output += '<td><b><i><u>Id</u></i></b></td>';
+                    output += '<td><b><i><u>Name</u></i></b></td>';
+                    output += '<td><b><i><u>Price</u></i></b></td>';
+                    output += '<td><b><i><u>Category</u></i></b></td>';
+                    output += '</tr>\n'; // added newline for console readability
+                    for (var i = 0; i < data.length; i++) {
+                        output += '<tr>';
+                        output += '<td>' + data[i].Id + '</td>';
+                        output += '<td>' + data[i].Name + '</td>';
+                        output += '<td>' + data[i].Price + '</td>';
+                        output += '<td>' + data[i].Category + '</td>';
+                        output += '</tr>\n'; // added newline for console readability
+                    }
+                    output += '</table>';
+                    document.getElementById('stat').innerHTML = output;
+                },
+
+                error: function () {
+                    alert('error!');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+﻿
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="~/Content/css/style.css">
+    <link rel="stylesheet" href="~/Content/css/layout.css">
+    <title>Store</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+    <header>
+        <a id="header" onclick="GoToMainPage()"><img class="header" src="~/Content/img/header.png" /></a>
+    </header>
+
+    <ul id="menu">
+        <li>
+            <a href="">Products</a>
+            <ul>
+                <li><a onclick='GetPdoructsCategory(this);'>Phones</a></li>
+                <li><a onclick='GetPdoructsCategory(this);'>Computers</a></li>
+                <li><a onclick='GetPdoructsCategory(this);'>Watches</a></li>
+                <li><a onclick='GetPdoructsCategory(this);'>Tablets</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="">item</a>
+            <ul>
+                <li><a href="">item</a></li>
+                <li><a href="">item</a></li>
+                <li><a href="">item</a></li>
+                <li><a href="">item</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="../Account/Logout">Logout</a>
+        </li>
+        <li>
+            <a onclick="GoToCart()">Cart</a>
+        </li>
+    </ul>
+
+    <script>
+
+        function GoToMainPage() {
+            if (document.location.pathname == "/") {
+                document.location.href = "Home/Index";
+            }
+            else document.location.href = "../Home/Index";
+        }
+
+        function GoToCart() {
+
+            if (document.location.pathname == "/") {
+                document.location.href = "Cart/Index";
+            }
+            else document.location.href = "../Cart/Index";
+        }
+
+        function AddCart(_id) {
+            var path;
+            if (document.location.pathname == "/") {
+                path = 'Cart/AddToCart';
+            }
+            else path = '../Cart/AddToCart';
+            $.get(path, { id: _id }, function (data) {
+                alert("Item successfully added");
+            });
+        }
+
+        $(document).ready(function () {
+            initMenu();
+
+            $('#menu li a').click(
+                function () {
+                    var iselemnt = $(this).next();
+                    if ((iselemnt.is('ul')) && (iselemnt.is(':visible'))) {
+                        return false;
+                    }
+
+                    if ((iselemnt.is('ul')) && (!iselemnt.is(':visible'))) {
+                        $('#menu ul:visible').slideUp('normal');
+                        iselemnt.slideDown('normal');
+                        return false;
+                    }
+                }
+            );
+        });
+
+        function GetPdoructsCategory(v) {
+            if (document.location.pathname == "/") {
+                document.location.href = "Home/CategoryProducts?category=" + v.innerText;
+            }
+            else document.location.href = "../Home/CategoryProducts?category=" + v.innerText;
+        }
+
+
+        function initMenu() {
+
+            $('#menu ul').hide();
+            $('#menu ul:eq(1)').show();
+            $('#menu li a').click(
+                function () {
+                    var iselemnt = $(this).next();
+                    if ((iselemnt.is('ul')) && (iselemnt.is(':visible'))) {
+                        return false;
+                    }
+
+                    if ((iselemnt.is('ul')) && (!iselemnt.is(':visible'))) {
+                        $('#menu ul:visible').slideUp('normal');
+                        iselemnt.slideDown('normal');
+                        return false;
+                    }
+                }
+            );
+
+        }
+
+    </script>
+
+    @RenderBody()
+
+</body>
+
+
+</html>
